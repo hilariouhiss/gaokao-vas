@@ -1,0 +1,58 @@
+version: '3'
+services:
+  app:
+    # 通过镜像启动
+    image:
+      hilariouhiss/vevss:1.5
+#    build: .
+    # 设置环境变量
+    environment:
+      REDIS_PASSWORD: qweasdzxc
+      DATABASE_URL: jdbc:postgresql://192.168.238.129:15400/vevss_db
+      DATABASE_USERNAME: vevss
+      DATABASE_PASSWORD: !Qwer432
+    # 映射 8080 端口
+    ports:
+      - "8081:8080"
+    # 依赖mysql和redis服务
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+  # nginx服务配置
+  nginx:
+    image: nginx:1.24.0
+    ports:
+      - "80:80"
+    volumes:
+      # 挂载 配置文件 和 静态资源
+      - ./init/react.conf:/etc/nginx/conf.d/react.conf
+      - ./frontend/build:/usr/share/nginx/html
+  # mysql服务配置
+  mysql:
+    image: mysql:8.0.35
+    environment:
+      MYSQL_ROOT_PASSWORD: !Qwer432
+      MYSQL_USER: vevss
+      MYSQL_PASSWORD: !Qwer432
+      MYSQL_DATABASE: vevss_db
+      # 设置语言 和 时区
+      LANG: en_US.UTF-8
+      TZ: Asia/Shanghai
+    volumes:
+      - ./init/vevss_db_mysql.sql:/docker-entrypoint-initdb.d/vevss_db_mysql.sql
+    expose:
+      - 3306
+    # 健康检查
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  # redis服务配置
+  redis:
+    image: redis:7.2.3
+    command: [ "redis-server", "--requirepass", "qweasdzxc" ]
+    expose:
+      - 6379

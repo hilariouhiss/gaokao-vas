@@ -1,0 +1,50 @@
+server:
+  port: 8081
+spring:
+  cache:
+    type: redis
+    cache-names: vevss
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      timeout: 3000
+      lettuce:
+        pool:
+          enabled: true
+          max-idle: 8
+          min-idle: 0
+          max-active: 8
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:postgresql://124.70.27.30:15400/vevss_db
+    username: 'vevss'
+    password: '!Qwer432'
+    driver-class-name: org.postgresql.Driver
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: select 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat,wall,log4j
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+logging:
+  config: classpath:log4j2.xml
+  level:
+    root: info
