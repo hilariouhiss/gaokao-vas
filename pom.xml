@@ -66,6 +66,7 @@
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
 
+        <!--spring cache-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
@@ -81,6 +82,7 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
+        <!--数据库连接池 starter-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
@@ -97,7 +99,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.5.1</version>
+            <version>42.7.2</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -128,6 +130,7 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- 用于读写 .xlsx -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
